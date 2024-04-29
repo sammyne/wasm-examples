@@ -1,6 +1,6 @@
 [workspace]
 members = [
-  "components/hello-world",
+  "component/hello-world",
 ]
 
 resolver = "2"
