@@ -1,6 +1,9 @@
 [workspace]
 members = [
   "component/hello-world",
+  "component/compose/adder",
+  "component/compose/calculator",
+  "component/compose/cli",
 ]
 
 resolver = "2"

@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "adder"
+version = "0.1.0"
+dependencies = [
+ "wit-bindgen-rt",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -365,6 +372,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "514de17de45fdb8dc022b1a7975556c53c86f9f0aa5f534b98977b171857c2c9"
 
 [[package]]
+name = "calculator"
+version = "0.1.0"
+dependencies = [
+ "wit-bindgen-rt",
+]
+
+[[package]]
 name = "cap-fs-ext"
 version = "3.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -497,6 +511,13 @@ name = "clap_lex"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "98cc8fbded0c607b7ba9dd60cd98df59af97e84d24e49c8557331cfc26d301ce"
+
+[[package]]
+name = "cli"
+version = "0.1.0"
+dependencies = [
+ "wit-bindgen-rt",
+]
 
 [[package]]
 name = "colorchoice"
