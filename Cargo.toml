@@ -1,0 +1,24 @@
+[workspace]
+members = [
+  "components/hello-world",
+]
+
+resolver = "2"
+
+[workspace.dependencies]
+anyhow = "1.0.82"
+wasmtime = "20.0.0"
+wasmtime-wasi = "20.0.0"
+
+[workspace.dependencies.async-std]
+features = ["attributes"]
+version = "1.12.0"
+
+[workspace.dependencies.clap]
+features = ["derive"]
+version = "4.5.4"
+
+[workspace.dependencies.wit-bindgen-rt]
+features = ["bitflags"]
+version = "0.24.0"
+
