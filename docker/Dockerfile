@@ -14,7 +14,7 @@ RUN apt update                                  &&\
   apt clean                                     &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN rustup component add rustfmt && rustup target add wasm32-wasi
+RUN rustup component add rustfmt && rustup target add wasm32-unknown-unknown wasm32-wasi 
 
 
 FROM rust AS cargo-bin
