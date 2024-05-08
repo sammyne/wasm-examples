@@ -1,5 +1,7 @@
 [workspace]
 members = [
+  "module/quickstart/cli",
+  "module/quickstart/wasm",
   "component/hello-world",
   "component/compose/adder",
   "component/compose/calculator",
@@ -25,3 +27,8 @@ version = "4.5.4"
 features = ["bitflags"]
 version = "0.24.0"
 
+#[profile.release]
+# 移除辅助调试的符号
+#strip = true
+# debuginfo 指示有选择的移除部分自定义小结的调试信息，例如 .debug_abbrev
+#strip = "debuginfo"
