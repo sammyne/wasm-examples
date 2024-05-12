@@ -3,6 +3,21 @@
 version = 3
 
 [[package]]
+name = "abi-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "wasmtime",
+]
+
+[[package]]
+name = "abi-wasm"
+version = "0.1.0"
+dependencies = [
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "adder"
 version = "0.1.0"
 dependencies = [
