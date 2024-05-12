@@ -1,0 +1,11 @@
+[build]
+# 由 https://github.com/rust-lang/rust/issues/71871 可知，在 wasm32-unknown-unknown 目标下，rust 编译器会把结构体字段展开
+# 平铺到形参列表，和基于 clang 生成的 ABI 不兼容。
+# 这一笔提交 https://github.com/rust-lang/rust/pull/79998 为 wasi 修复了上述兼容性问题，因此可使用 wasm32-wasi 目标。
+target = "wasm32-wasi"
+
+[profile.release]
+# 移除辅助调试的符号
+#strip = true
+# debuginfo 指示有选择的移除部分自定义小结的调试信息，例如 .debug_abbrev
+strip = "debuginfo"
