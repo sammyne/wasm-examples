@@ -13,7 +13,7 @@ bash docker/dockerize.sh
 
 ```bash
 # 注意：repo_tag 需要和上一步打包所得镜像名称保持一致
-repo_tag=sammyne/wasm-examples-playground:634ab00
+repo_tag=sammyne/wasm-examples-playground:149588b
 
 docker run -it --rm -v $PWD:/workspace -w /workspace $repo_tag bash
 ```
@@ -24,7 +24,8 @@ docker run -it --rm -v $PWD:/workspace -w /workspace $repo_tag bash
 
 目录 | 说明
 ----:|:----
-component | Component Model 相关示例程序
+component-model | Component Model 相关示例程序
+module | 简单的示例程序
 
 ## 参考文献
 - [The WebAssembly Component Model](https://component-model.bytecodealliance.org/introduction.html)

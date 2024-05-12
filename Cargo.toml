@@ -5,10 +5,10 @@ members = [
   "module/custom-section",
   "module/quickstart/cli",
   "module/quickstart/wasm",
-  "component/hello-world",
-  "component/compose/adder",
-  "component/compose/calculator",
-  "component/compose/cli",
+  "component-model/hello-world",
+  "component-model/compose/adder",
+  "component-model/compose/calculator",
+  "component-model/compose/cli",
 ]
 
 resolver = "2"
