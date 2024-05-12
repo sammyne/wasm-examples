@@ -6,7 +6,7 @@ use wasmtime::{Config, Engine, Store};
 use wasmtime_wasi::{WasiCtx, WasiCtxBuilder, WasiView};
 
 wasmtime::component::bindgen!({
-    path: "wit/helloworld.wit",
+    path: "../component/wit/world.wit",
     world: "example",
     async: true
 });

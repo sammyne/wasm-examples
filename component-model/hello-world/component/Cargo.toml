@@ -1,5 +1,5 @@
 [package]
-name = "hello-world"
+name = "hello-world-component"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,13 +8,8 @@ edition = "2021"
 [dependencies]
 wit-bindgen-rt.workspace = true
 
-anyhow.workspace = true
-async-std.workspace = true
-clap.workspace = true
-wasmtime.workspace = true
-wasmtime-wasi.workspace = true
-
 [lib]
+name = "hello_world"
 crate-type = ["cdylib"]
 
 [package.metadata.component]
