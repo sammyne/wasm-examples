@@ -1,6 +1,5 @@
 mod utils;
 
-use core::slice;
 use std::fs;
 
 use anyhow::Context;
@@ -158,24 +157,14 @@ fn renew_greeting(caller: Caller<'_, ()>, out_ptr: i32, in_ptr: i32) {
         _ => panic!("exported section 'memory' isn't memory"),
     };
 
-    let mut out = {
-        TinyMemory::new(&mem, &mut caller)
-            .read::<Greeting>(in_ptr as usize)
-            .expect("read memory")
-    };
+    let mut out = TinyMemory::new(&mem, &mut caller)
+        .read::<Greeting>(in_ptr as usize)
+        .expect("read memory");
 
     out.a += 100;
     out.b = !out.b;
 
-    const GREETING_LENGTH: usize = std::mem::size_of::<Greeting>();
-    {
-        let greeting = out;
-        let data = unsafe {
-            let data = &greeting as *const Greeting as *const u8;
-            slice::from_raw_parts(data, GREETING_LENGTH)
-        };
-
-        mem.write(&mut caller, out_ptr as usize, data)
-            .expect("write greeting to memory");
-    }
+    TinyMemory::new(&mem, &mut caller)
+        .write(out_ptr as usize, &out)
+        .expect("write output")
 }

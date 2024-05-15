@@ -1,10 +1,7 @@
-//use wasm_bindgen::prelude::*;
-
 extern "C" {
     fn renew_greeting(v: Greeting) -> Greeting;
 }
 
-//#[wasm_bindgen]
 #[derive(Debug)]
 #[repr(C)]
 pub struct Greeting {
