@@ -18,10 +18,24 @@ fn main() -> wasmtime::Result<()> {
 
     let linker = Linker::new(&engine);
 
-    let mut store = Store::new(&engine, 123u32);
+    demo_pass_struct(&engine, &linker, &module).context("demo pass_struct")?;
+    demo_return_struct(&engine, &linker, &module).context("demo return_struct")?;
+
+    Ok(())
+}
+
+#[derive(Debug, Default)]
+#[repr(C)]
+struct Greeting {
+    pub a: u32,
+    pub b: bool,
+}
+
+fn demo_pass_struct(engine: &Engine, linker: &Linker<()>, module: &Module) -> anyhow::Result<()> {
+    let mut store = Store::new(&engine, ());
 
     let instance = linker
-        .instantiate(&mut store, &module)
+        .instantiate(&mut store, module)
         .context("instantiate")?;
 
     const GREETING_OFFSET: usize = 200;
@@ -59,8 +73,42 @@ fn main() -> wasmtime::Result<()> {
     Ok(())
 }
 
-#[repr(C)]
-struct Greeting {
-    pub a: u32,
-    pub b: bool,
+fn demo_return_struct(engine: &Engine, linker: &Linker<()>, module: &Module) -> anyhow::Result<()> {
+    let mut store = Store::new(&engine, ());
+
+    let instance = linker
+        .instantiate(&mut store, module)
+        .context("instantiate")?;
+
+    const GREETING_OFFSET: usize = 100;
+
+    let f = instance
+        .get_typed_func::<(i32, i32, i32), ()>(&mut store, "return_struct")
+        .context("load func 'return_struct'")?;
+
+    // todo: 测试大小端是否影响结果正确性
+    f.call(&mut store, (GREETING_OFFSET as i32, 123, true as i32))
+        .context("return_struct.call")?;
+
+    let out = {
+        // @warn: 必须使用实例导出的内存模块，而且名称也需要和 wasm 文件里面到处的名称一致。
+        let mem = instance
+            .get_memory(&mut store, "memory")
+            .context("get memory")?;
+
+        let mut greeting = Greeting::default();
+        let data = unsafe {
+            let data = &mut greeting as *mut Greeting as *mut u8;
+            slice::from_raw_parts_mut(data, std::mem::size_of::<Greeting>())
+        };
+
+        mem.read(&mut store, GREETING_OFFSET, data)
+            .context("read greeting from memory")?;
+
+        greeting
+    };
+
+    println!("out = {out:?}");
+
+    Ok(())
 }

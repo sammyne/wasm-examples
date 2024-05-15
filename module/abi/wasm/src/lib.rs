@@ -16,3 +16,8 @@ pub extern "C" fn pass_struct(v: Greeting) -> u32 {
         v.a + 2
     }
 }
+
+#[no_mangle]
+pub extern "C" fn return_struct(a: u32, b: bool) -> Greeting {
+    Greeting { a, b }
+}
