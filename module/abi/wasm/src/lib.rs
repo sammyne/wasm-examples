@@ -1,11 +1,20 @@
 //use wasm_bindgen::prelude::*;
 
+extern "C" {
+    fn renew_greeting(v: Greeting) -> Greeting;
+}
+
 //#[wasm_bindgen]
 #[derive(Debug)]
 #[repr(C)]
 pub struct Greeting {
     pub a: u32,
     pub b: bool,
+}
+
+#[no_mangle]
+pub extern "C" fn call_host_with_complex_args_and_returns(v: Greeting) -> Greeting {
+    unsafe { renew_greeting(v) }
 }
 
 #[no_mangle]

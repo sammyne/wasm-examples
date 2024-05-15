@@ -1,8 +1,12 @@
+mod utils;
+
 use core::slice;
 use std::fs;
 
 use anyhow::Context;
-use wasmtime::{Engine, Error, Linker, Module, Store};
+use wasmtime::{Caller, Engine, Error, Extern, Linker, Module, Store};
+
+use crate::utils::TinyMemory;
 
 fn main() -> wasmtime::Result<()> {
     let path = std::env::args()
@@ -16,8 +20,14 @@ fn main() -> wasmtime::Result<()> {
 
     let module = Module::new(&engine, &bytecodes).context("new module")?;
 
-    let linker = Linker::new(&engine);
+    let mut linker = Linker::new(&engine);
 
+    linker
+        .func_wrap("env", "renew_greeting", renew_greeting)
+        .context("wrap renew_greeting")?;
+
+    demo_call_host_with_complex_args_and_returns(&engine, &linker, &module)
+        .context("demo call_host_with_complex_args_and_returns")?;
     demo_pass_struct(&engine, &linker, &module).context("demo pass_struct")?;
     demo_return_struct(&engine, &linker, &module).context("demo return_struct")?;
 
@@ -31,6 +41,50 @@ struct Greeting {
     pub b: bool,
 }
 
+/// 演示实参和返回值都为结构体
+fn demo_call_host_with_complex_args_and_returns(
+    engine: &Engine,
+    linker: &Linker<()>,
+    module: &Module,
+) -> anyhow::Result<()> {
+    let mut store = Store::new(&engine, ());
+
+    let instance = linker
+        .instantiate(&mut store, module)
+        .context("instantiate")?;
+
+    const INPUT_OFFSET: usize = 100;
+    // @warn: 必须使用实例导出的内存模块，而且名称也需要和 wasm 文件里面到处的名称一致。
+    // @warn: 另外新建内存模块，对此实例没有作用。
+    let mem = instance
+        .get_memory(&mut store, "memory")
+        .context("get memory")?;
+
+    let input = Greeting { a: 789, b: true };
+    TinyMemory::new(&mem, &mut store)
+        .write(INPUT_OFFSET, &input)
+        .context("write input to memory")?;
+
+    let f = instance
+        .get_typed_func::<(i32, i32), ()>(&mut store, "call_host_with_complex_args_and_returns")
+        .context("load func 'return_struct'")?;
+
+    const OUTPUT_OFFSET: usize = INPUT_OFFSET + 100;
+    // todo: 测试大小端是否影响结果正确性
+    f.call(&mut store, (OUTPUT_OFFSET as i32, INPUT_OFFSET as i32))
+        .context("call_host_with_complex_args_and_returns.call")?;
+
+    let output: Greeting = TinyMemory::new(&mem, &mut store)
+        .read(OUTPUT_OFFSET)
+        .context("read output from memory")?;
+
+    assert_eq!(889, output.a, "bad a");
+    assert!(!output.b, "bad b");
+
+    Ok(())
+}
+
+/// 演示实参是结构体
 fn demo_pass_struct(engine: &Engine, linker: &Linker<()>, module: &Module) -> anyhow::Result<()> {
     let mut store = Store::new(&engine, ());
 
@@ -39,25 +93,15 @@ fn demo_pass_struct(engine: &Engine, linker: &Linker<()>, module: &Module) -> an
         .context("instantiate")?;
 
     const GREETING_OFFSET: usize = 200;
-    const GREETING_LENGTH: usize = std::mem::size_of::<Greeting>();
-    {
-        // @warn: 必须使用实例导出的内存模块，而且名称也需要和 wasm 文件里面到处的名称一致。
-        // @warn: 另外新建内存模块，对此实例没有作用。
-        let mem = instance
-            .get_memory(&mut store, "memory")
-            .context("get memory")?;
-
-        let greeting = Greeting { a: 123, b: true };
-        let data = unsafe {
-            let data = &greeting as *const Greeting as *const u8;
-            slice::from_raw_parts(data, GREETING_LENGTH)
-        };
-
-        //let buf = mem.data_mut(&mut store);
-        //buf[GREETING_OFFSET..(GREETING_OFFSET + data.len())].copy_from_slice(data);
-        mem.write(&mut store, GREETING_OFFSET, data)
-            .context("write greeting to memory")?;
-    }
+    // @warn: 必须使用实例导出的内存模块，而且名称也需要和 wasm 文件里面到处的名称一致。
+    // @warn: 另外新建内存模块，对此实例没有作用。
+    let mem = instance
+        .get_memory(&mut store, "memory")
+        .context("get memory")?;
+    let greeting = Greeting { a: 123, b: true };
+    TinyMemory::new(&mem, &mut store)
+        .write(GREETING_OFFSET, &greeting)
+        .context("write greeting")?;
 
     let pass_struct = instance
         .get_typed_func::<i32, i32>(&mut store, "pass_struct")
@@ -68,11 +112,13 @@ fn demo_pass_struct(engine: &Engine, linker: &Linker<()>, module: &Module) -> an
     let out = pass_struct
         .call(&mut store, GREETING_OFFSET as i32)
         .context("pass_struct.call")?;
-    println!("out = {out}");
+
+    assert_eq!(124, out, "bad out");
 
     Ok(())
 }
 
+/// 演示返回值是 1 个结构体
 fn demo_return_struct(engine: &Engine, linker: &Linker<()>, module: &Module) -> anyhow::Result<()> {
     let mut store = Store::new(&engine, ());
 
@@ -90,25 +136,46 @@ fn demo_return_struct(engine: &Engine, linker: &Linker<()>, module: &Module) -> 
     f.call(&mut store, (GREETING_OFFSET as i32, 123, true as i32))
         .context("return_struct.call")?;
 
-    let out = {
-        // @warn: 必须使用实例导出的内存模块，而且名称也需要和 wasm 文件里面到处的名称一致。
-        let mem = instance
-            .get_memory(&mut store, "memory")
-            .context("get memory")?;
+    // @warn: 必须使用实例导出的内存模块，而且名称也需要和 wasm 文件里面到处的名称一致。
+    let mem = instance
+        .get_memory(&mut store, "memory")
+        .context("get memory")?;
 
-        let mut greeting = Greeting::default();
-        let data = unsafe {
-            let data = &mut greeting as *mut Greeting as *mut u8;
-            slice::from_raw_parts_mut(data, std::mem::size_of::<Greeting>())
-        };
+    let out: Greeting = TinyMemory::new(&mem, &mut store)
+        .read(GREETING_OFFSET)
+        .context("read output from memory")?;
 
-        mem.read(&mut store, GREETING_OFFSET, data)
-            .context("read greeting from memory")?;
-
-        greeting
-    };
-
-    println!("out = {out:?}");
+    assert_eq!(123, out.a, "bad a");
+    assert!(out.b, "bad b");
 
     Ok(())
+}
+
+fn renew_greeting(caller: Caller<'_, ()>, out_ptr: i32, in_ptr: i32) {
+    let mut caller = caller;
+    let mem = match caller.get_export("memory").expect("miss exported memory") {
+        Extern::Memory(v) => v,
+        _ => panic!("exported section 'memory' isn't memory"),
+    };
+
+    let mut out = {
+        TinyMemory::new(&mem, &mut caller)
+            .read::<Greeting>(in_ptr as usize)
+            .expect("read memory")
+    };
+
+    out.a += 100;
+    out.b = !out.b;
+
+    const GREETING_LENGTH: usize = std::mem::size_of::<Greeting>();
+    {
+        let greeting = out;
+        let data = unsafe {
+            let data = &greeting as *const Greeting as *const u8;
+            slice::from_raw_parts(data, GREETING_LENGTH)
+        };
+
+        mem.write(&mut caller, out_ptr as usize, data)
+            .expect("write greeting to memory");
+    }
 }
