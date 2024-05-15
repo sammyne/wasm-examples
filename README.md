@@ -30,7 +30,7 @@ module | 简单的示例程序
 ## 温馨提示
 ### 关于构建
 - WASM 的库和运行 WASM 的可执行文件不能放在同一个 crate，否则会由于 cargo 不区分两者的依赖，将可执行文件的依赖按 `wasm32-wasi`
-目标编译出发编译错误。
+目标编译触发编译错误。
 
 ## 参考文献
 - [The WebAssembly Component Model](https://component-model.bytecodealliance.org/introduction.html)
