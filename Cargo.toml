@@ -10,6 +10,8 @@ members = [
   "component-model/compose/adder",
   "component-model/compose/calculator",
   "component-model/compose/cli",
+  "component-model/wit-resource/cli",
+  "component-model/wit-resource/component",
 ]
 
 resolver = "2"
