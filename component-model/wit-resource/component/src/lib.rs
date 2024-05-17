@@ -12,8 +12,12 @@ impl Guest for Component {
     fn hello_world() -> String {
         let who = "sammyne";
 
-        let greeter = Greeter::new();
-        greeter.greet(who);
+        {
+            // greeter 出了作用域后，会触发对应资源的析构函数
+            let greeter = Greeter::new();
+            greeter.greet(who);
+        }
+        println!("this is guest");
 
         "hello world".to_string()
     }

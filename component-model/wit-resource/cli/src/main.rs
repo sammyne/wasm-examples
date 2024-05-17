@@ -79,7 +79,8 @@ impl HostGreeter for Greeter {
         Ok(())
     }
 
-    fn drop(&mut self, _rep: Resource<api::Greeter>) -> wasmtime::Result<()> {
+    fn drop(&mut self, rep: Resource<api::Greeter>) -> wasmtime::Result<()> {
+        println!("drop greeter with rep={}", rep.rep());
         Ok(())
     }
 }

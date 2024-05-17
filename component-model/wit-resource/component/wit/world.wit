@@ -5,5 +5,4 @@ world example {
     import helloworld:cli/api@0.0.1;
 
     export hello-world: func() -> string;
-
 }
