@@ -2768,6 +2768,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "wit-record"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-std",
+ "clap",
+ "wasmtime",
+ "wasmtime-wasi",
+]
+
+[[package]]
+name = "wit-record-component"
+version = "0.1.0"
+dependencies = [
+ "wit-bindgen-rt",
+]
+
+[[package]]
 name = "wit-resource"
 version = "0.1.0"
 dependencies = [
