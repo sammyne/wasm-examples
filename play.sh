@@ -9,4 +9,4 @@ docker run -it --rm                             \
   -v $PWD/_cargo/git:/root/.cargo/git           \
   -w /workspace                                 \
   $repo_tag                                     \
-    bash
+    bash -c 'echo "export PATH=/root/.cargo/bin:$PATH" >> /root/.bashrc; bash'

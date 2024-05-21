@@ -789,6 +789,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "dynamically-built"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-std",
+ "clap",
+ "wasmtime",
+ "wasmtime-wasi",
+]
+
+[[package]]
+name = "dynamically-built-component"
+version = "0.1.0"
+dependencies = [
+ "wit-bindgen-rt",
+]
+
+[[package]]
 name = "either"
 version = "1.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
