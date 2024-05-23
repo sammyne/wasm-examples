@@ -6,6 +6,8 @@ name=github-wasm-examples-playground
 
 docker stop $name
 
+docker wait $name
+
 docker run -td --rm                             \
   -e CARGO_HOME=/root/.cargo                    \
   --name $name                                  \
@@ -18,4 +20,8 @@ docker run -td --rm                             \
 
 if [ -f _git/gitconfig ]; then
   docker cp _git/gitconfig $name:/root/.gitconfig
+fi
+
+if [ -d _ssh ]; then
+  docker cp _ssh $name:/root/.ssh
 fi
