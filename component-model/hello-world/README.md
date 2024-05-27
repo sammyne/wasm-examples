@@ -31,7 +31,7 @@ bash cli.sh bindgen
 bash cli.sh build
 
 # 模块组件化
-bash cli.sh
+bash cli.sh componentize
 
 cd -
 ```
