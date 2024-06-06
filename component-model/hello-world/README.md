@@ -19,6 +19,29 @@ cargo run -- ../../../target/wasm32-wasi/release/hello_world.wasm
 cd -
 ```
 
+### rust 语言基于 wit-bindgen 版
+#### 1. 编译
+```bash
+cd component-by-wit-bindgen
+
+# 生成 wasm 模块
+bash cli.sh build
+
+# 模块组件化
+bash cli.sh componentize
+
+cd -
+```
+
+#### 2. 运行
+
+```bash
+cd cli
+# hello_world.wasm 是上一步的编译产物
+cargo run -- ../../../target/wasm32-wasi/release/hello-world-by-wit-bindgen.component.wasm
+cd -
+```
+
 ### go 语言版
 #### 1. 编译
 ```bash
@@ -46,4 +69,5 @@ cd -
 
 ## 参考文献
 - https://component-model.bytecodealliance.org/language-support/rust.html
+- https://github.com/bytecodealliance/wit-bindgen?tab=readme-ov-file#guest-rust
 - https://tinygo.org/docs/guides/webassembly/wasi/
