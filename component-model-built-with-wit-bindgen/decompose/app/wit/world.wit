@@ -1,0 +1,11 @@
+package sammyne:app@0.1.0;
+
+interface greeter {
+    greet: func();
+}
+
+world app {
+    export greeter;
+
+    import docs:adder/add@0.1.0;
+}

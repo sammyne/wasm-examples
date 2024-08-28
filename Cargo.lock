@@ -763,6 +763,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "decompose-app"
+version = "0.2.0"
+dependencies = [
+ "wit-bindgen",
+]
+
+[[package]]
+name = "decompose-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "tokio",
+ "wasmtime",
+ "wasmtime-wasi",
+]
+
+[[package]]
 name = "digest"
 version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
