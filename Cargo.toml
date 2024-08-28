@@ -23,6 +23,8 @@ members = [
   "component-model-built-with-wit-bindgen/compose-same-pkg-with-different-versions/adder",
   "component-model-built-with-wit-bindgen/compose-same-pkg-with-different-versions/adder-v2",
   "component-model-built-with-wit-bindgen/compose-same-pkg-with-different-versions/cli",
+  "component-model-built-with-wit-bindgen/decompose/app",
+  "component-model-built-with-wit-bindgen/decompose/cli",
 ]
 
 resolver = "2"
