@@ -20,8 +20,8 @@ docker run -it --rm -v $PWD:/workspace -w /workspace $repo_tag bash
 ## 示例程序
 
 目录 | 说明
-----:|:----
-component-model | Component Model 相关示例程序
+----|----
+component-model-built-with-cargo-component | 基于 cargo-component 工具构建的 Component Model 相关示例程序
 component-model-built-with-wit-bindgen | 基于 wit-bindgen 的 `generate` 宏构建的 Component Model 相关示例程序
 module | 简单的示例程序
 
