@@ -850,6 +850,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "dynamically-parse-and-inject-app"
+version = "0.1.0"
+dependencies = [
+ "wit-bindgen",
+]
+
+[[package]]
+name = "dynamically-parse-and-inject-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "wasmtime",
+ "wasmtime-wasi",
+]
+
+[[package]]
 name = "either"
 version = "1.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
