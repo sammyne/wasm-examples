@@ -7,14 +7,11 @@
 bash docker/dockerize.sh
 ```
 
-假设所得镜像为 sammyne/wasm-examples-playground:634ab00。
+假设所得镜像为 sammyne/wasm-examples-playground:c7fa99f，后续记为 `repo_tag`。
 
 ### 2. 启动开放容器
 
 ```bash
-# 注意：repo_tag 需要和上一步打包所得镜像名称保持一致
-repo_tag=sammyne/wasm-examples-playground:149588b
-
 docker run -it --rm -v $PWD:/workspace -w /workspace $repo_tag bash
 ```
 
@@ -25,6 +22,7 @@ docker run -it --rm -v $PWD:/workspace -w /workspace $repo_tag bash
 目录 | 说明
 ----:|:----
 component-model | Component Model 相关示例程序
+component-model-built-with-wit-bindgen | 基于 wit-bindgen 的 `generate` 宏构建的 Component Model 相关示例程序
 module | 简单的示例程序
 
 ## 温馨提示
