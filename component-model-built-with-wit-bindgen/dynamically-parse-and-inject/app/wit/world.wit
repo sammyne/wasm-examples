@@ -1,0 +1,13 @@
+package sammyne:app;
+
+interface greeter {
+    greet: func(who: string);
+}
+
+/// An example world for the component to target.
+world example {
+    export hello-world: func() -> string;
+
+    import greeter;
+    import sammyne:calculator/ops@0.1.0;
+}
