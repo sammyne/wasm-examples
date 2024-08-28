@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repo_tag=sammyne/wasm-examples-playground:15f8918
+repo_tag=sammyne/wasm-examples-playground:c7fa99f
 
 name=github-wasm-examples-playground
 
