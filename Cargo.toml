@@ -27,6 +27,8 @@ members = [
   "component-model-built-with-wit-bindgen/decompose/cli",
   "component-model-built-with-wit-bindgen/dynamically-parse-and-inject/app",
   "component-model-built-with-wit-bindgen/dynamically-parse-and-inject/cli",
+  "component-model-built-with-wit-bindgen/guest-resource/app",
+  "component-model-built-with-wit-bindgen/guest-resource/cli",
 ]
 
 resolver = "2"

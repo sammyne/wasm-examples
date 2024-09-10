@@ -1153,6 +1153,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "guest-resource-app"
+version = "0.1.0"
+dependencies = [
+ "wit-bindgen",
+]
+
+[[package]]
+name = "guest-resource-cli"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "wasmtime",
+ "wasmtime-wasi",
+]
+
+[[package]]
 name = "hashbrown"
 version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

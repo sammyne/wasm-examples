@@ -1,0 +1,23 @@
+package helloworld:example;
+
+interface api {
+  use greeter-api.{greeter};
+
+  hello-world: func(g: greeter, who: string);
+
+  hi: func(who: string);
+}
+
+interface greeter-api {
+  resource greeter {
+    constructor();
+
+    greet: func(who: string);
+  }
+}
+
+/// An example world for the component to target.
+world example {
+    export api;
+    export greeter-api;
+}
