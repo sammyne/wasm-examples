@@ -1,0 +1,6 @@
+package docs:app;
+
+world app {
+    import docs:adder/add@0.1.0;
+    import docs:calculator/calculate@0.1.0;
+}
