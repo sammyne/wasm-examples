@@ -2752,6 +2752,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "wat-hello-world-host"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "wasmtime",
+]
+
+[[package]]
 name = "web-sys"
 version = "0.3.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"

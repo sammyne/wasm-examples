@@ -20,6 +20,7 @@ members = [
   "component-model-built-with-cargo-component/wit-record/component",
   "component-model-built-with-cargo-component/wit-resource/cli",
   "component-model-built-with-cargo-component/wit-resource/component",
+  "component-model-built-with-wat/hello-world/host",
   "component-model-built-with-wit-bindgen/compose/adder",
   "component-model-built-with-wit-bindgen/compose/calculator",
   "component-model-built-with-wit-bindgen/compose/cli",
