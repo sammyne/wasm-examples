@@ -1,8 +1,8 @@
 #!/bin/bash
 
-repo_tag=sammyne/wasm-examples-playground:c7fa99f
+repo_tag=sammyne/wasm-studio-rs:b5b7b77
 
-name=github-wasm-examples-playground
+name=github-wasm-studio-rs
 
 docker stop $name
 
