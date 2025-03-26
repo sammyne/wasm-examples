@@ -4,7 +4,7 @@ set -e
 
 cd `dirname ${BASH_SOURCE[0]}`
 
-repo_tag=sammyne/wasm-examples-playground:`git rev-parse --short HEAD`
+repo_tag=sammyne/wasm-studio-rs:`git rev-parse --short HEAD`
 
 build_arg_opts="--build-arg CARGO_COMPONENT_VERSION=0.15.0"
 build_arg_opts="$build_arg_opts --build-arg GO_VERSION=1.23.0"
