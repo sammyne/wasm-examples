@@ -1,4 +1,4 @@
-FROM rust:1.80.1-slim-bookworm AS rust
+FROM rust:1.85.1-slim-bookworm AS rust
 
 ENV RUSTUP_DIST_SERVER="https://rsproxy.cn" \
   RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
@@ -15,7 +15,7 @@ RUN apt update                                  &&\
   apt clean                                     &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN rustup component add rustfmt && rustup target add wasm32-unknown-unknown wasm32-wasi 
+RUN rustup component add rustfmt && rustup target add wasm32-unknown-unknown wasm32-wasip1 
 
 #RUN echo 'export PATH=$CARGO_HOME/bin:$PATH' > /root/.bashrc
 
