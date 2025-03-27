@@ -15,7 +15,7 @@ RUN apt update                                  &&\
   apt clean                                     &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN rustup component add rustfmt && rustup target add wasm32-unknown-unknown wasm32-wasip1 
+RUN rustup component add rustfmt && rustup target add wasm32-unknown-unknown wasm32-wasip1 wasm32-wasip2
 
 #RUN echo 'export PATH=$CARGO_HOME/bin:$PATH' > /root/.bashrc
 

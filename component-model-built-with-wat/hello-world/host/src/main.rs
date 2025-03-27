@@ -10,7 +10,7 @@ mod bindings {
 }
 
 fn main() -> anyhow::Result<()> {
-    let Cli { path, string} = Cli::parse();
+    let Cli { path, string } = Cli::parse();
 
     let mut config = Config::default();
     config.wasm_component_model(true);
@@ -20,7 +20,7 @@ fn main() -> anyhow::Result<()> {
     // Add the command world (aka WASI CLI) to the linker
     // wasmtime_wasi::add_to_linker_sync(&mut linker).context("link command world")?;
 
-     let mut store = Store::new(&engine, ());
+    let mut store = Store::new(&engine, ());
 
     let component = Component::from_file(&engine, path).context("Component file not found")?;
 
@@ -29,14 +29,14 @@ fn main() -> anyhow::Result<()> {
         .context("instantiate")?;
 
     let f = instance
-        .get_func(&mut store, "length").ok_or_else(|| anyhow::anyhow!("miss func"))?;
+        .get_func(&mut store, "length")
+        .ok_or_else(|| anyhow::anyhow!("miss func"))?;
 
     let params = [Val::String(string)];
     let mut results = [Val::Bool(false)];
     f.call(&mut store, &params, &mut results).context("call")?;
     // post-return 清理 say-hello 关联的状态。
-    f.post_return(&mut store)
-        .with_context(|| "post return")?;
+    f.post_return(&mut store).with_context(|| "post return")?;
     println!("length returns {results:?}");
 
     Ok(())
@@ -54,4 +54,3 @@ struct Cli {
     #[clap(short, long)]
     string: String,
 }
-
